@@ -39,6 +39,7 @@ class tarea : AppCompatActivity() {
 
         /*----ACTION DEL ICONO DE AGENDA PARA SELLECCIONAR LA FECHA----*/
         binding.clickFecha.setOnClickListener { clickFecha() }
+        binding.clickHora.setOnClickListener { clickHora() }
 
         /*----ACTION DEL BOTÓN GUARDAR----*/
         binding.btnGuardar.setOnClickListener { save() }
@@ -82,22 +83,14 @@ class tarea : AppCompatActivity() {
         binding.fecha.setText("$day/$month/$year")
     }
 
-    class DatePickerFragment(val listener: (year:Int, month:Int, day:Int)->Unit): DialogFragment(), DatePickerDialog.OnDateSetListener{
-        lateinit var c: Calendar
-
-        override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-            c = Calendar.getInstance()
-            var year = c.get(Calendar.YEAR)
-            var month = c.get(Calendar.MONTH)
-            var day = c.get(Calendar.DAY_OF_MONTH)
-
-            return DatePickerDialog(requireActivity(), this, year, month, day)
-        }
-
-        override fun onDateSet(p0: DatePicker?, year: Int, month: Int, day: Int) {
-            listener(year, month+1, day)
-        }
-
+    private fun clickHora() {
+      val timePicker = TimePickerFragment{onSelectedtime(it)}
+        timePicker.show(supportFragmentManager, "TimePicker")
     }
-    /*----DatePicker----*/
+
+    private fun onSelectedtime(time: String) {
+        binding.hora.setText("$time")
+    }
+
+
 }
